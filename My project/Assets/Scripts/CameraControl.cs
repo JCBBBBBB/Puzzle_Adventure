@@ -8,18 +8,19 @@ using UnityEngine.EventSystems;
 
 public class CameraControl : MonoBehaviour
 {
+
     private Camera cam;
     private float targetZoom;
-    public float zoomFactor = 3f;
+    public float zoomFactor = 40f;
     [SerializeField] public float zoomLerpSpeed = 10f;
 
     public Transform target;
     public Vector3 targetOffset;
-    public float distance = 5.0f;
-    public float maxDistance = 20;
+    public float distance = 1000f;
+    public float maxDistance = 1000f;
     public float minDistance = .6f;
     public int zoomRate = 40;
-    public float panSpeed = 0.3f;
+    public float panSpeed = 1f;
     public float zoomDampening = 5.0f;
 
     private float xDeg = 0.0f;
@@ -35,7 +36,6 @@ public class CameraControl : MonoBehaviour
 
     public Quaternion startQuaternion;
     public GameObject Target;
-
     public float offsetX = 3f;            // 카메라의 x좌표
     public float offsetY = 5f;           // 카메라의 y좌표
     public float offsetZ = 3f;          // 카메라의 z좌표
@@ -44,25 +44,20 @@ public class CameraControl : MonoBehaviour
     public float CameraSpeed = 10.0f;       // 카메라의 속도
     Vector3 TargetPos;                      // 타겟의 위치
 
-
-
-    public GameObject player;        //Public variable to store a reference to the player game object
+      //Public variable to store a reference to the player game object
 
 
     private Vector3 offset;
 
     private Vector3 originalPos;
 
-
-
+ 
 
 
     void Start()
     {
         cam = Camera.main;
         targetZoom = cam.fieldOfView;
-        startQuaternion = transform.rotation;
-        offset = transform.position - player.transform.position;
         originalPos = new Vector3(Target.transform.position.x, Target.transform.position.y, Target.transform.position.z);
     }
 
@@ -86,7 +81,7 @@ public class CameraControl : MonoBehaviour
         cam.fieldOfView = Mathf.Lerp(cam.fieldOfView, targetZoom, Time.deltaTime * zoomLerpSpeed);
 
     }
-
+  
     public void Init()
     {
         //If there is no target, create a temporary target at 'distance' from the cameras current viewpoint
@@ -126,9 +121,7 @@ public class CameraControl : MonoBehaviour
         ////////Orbit Position
 
      
-       
-        // For smoothing of the zoom, lerp distance
-        currentDistance = Mathf.Lerp(currentDistance, desiredDistance, Time.deltaTime * zoomDampening);
+     
 
         // calculate position based on the new currentDistance
         position = target.position - (rotation * Vector3.forward * currentDistance + targetOffset);
@@ -144,8 +137,6 @@ public class CameraControl : MonoBehaviour
             angle -= 360;
         return Mathf.Clamp(angle, min, max);
     }
-
-
 
 
 
